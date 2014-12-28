@@ -6,6 +6,7 @@
   "author": "justingosan",
   "dependencies": {
     "async": "^0.9.0",
+    "azure-storage": "^0.4.1",
     "cheerio": "latest",
     "express": "latest",
     "mkdirp": "^0.5.0",

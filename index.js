@@ -7,6 +7,13 @@ var _ = require('underscore');
 var fs = require('fs');
 var async = require('async');
 var mkdirp = require('mkdirp');
+var blobSvc = require('azure-storage').createBlobService();
+blobSvc.createContainerIfNotExists('mixergydl', function(error){
+    if(!error){
+        console.log('Azure storage created')
+    }
+});
+
 var VIDEO_TYPES = [
     'flv',
     'iphone',
@@ -84,17 +91,40 @@ function processInterview(obj, cb){
 }
 
 function download(localFile, remotePath, callback) {
-    var localStream = fs.createWriteStream(localFile);
+    // var localStream = fs.createWriteStream(localFile);
+    var writeStream = blobSvc.createWriteStreamToBlockBlob(
+                'mixergydl',
+                localFile,
+                { contentType: 'video/flv' },
+                function(error, result, response){
+                    if(error){
+                        console.error(error);
+                    }
+                });
     var out = request({
         uri: remotePath
     });
     out.on('response', function(resp) {
         if (resp.statusCode === 200) {
-            out.pipe(localStream);
-            localStream.on('close', function() {
+            out.pipe(writeStream);
+            writeStream.on('close', function() {
                 console.log('Done downloading: ' + localFile);
                 callback();
             });
         }
     })
 };
+
+// var writeStream = blobService.createWriteStreamToBlockBlob(
+//             containerName,
+//             fileName,
+//             { contentType: 'text/html' },
+//             function(error, result, response){
+//                 if(error){
+//                     console.log("Couldn't upload file %s from %s", fileName, domain);
+//                     console.error(error);
+//                 } else {
+//                     console.log('File %s from %s uploaded', fileName, domain);
+//                 }
+//             });
+
