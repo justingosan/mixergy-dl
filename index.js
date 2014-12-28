@@ -38,7 +38,7 @@ request.post({
 
                 var oneInterview = [docs.results.interviews[40]];
                 // _.forEach(oneInterview, function(obj){
-                var threads = 1;
+                var threads = 2;
                 async.eachLimit(docs.results.interviews, threads, function(obj, next){
                   processInterview(obj, next);
                 }, function(){
@@ -78,7 +78,7 @@ function processInterview(obj, cb){
             var filename = 'videos/' + String(obj['Episode Number']) + '.mp4';
             console.log('Video can be downloaded: ' + obj['Episode Number']);
 
-            download(filename, videos.assets.hdmp4.url, cb);
+            download(filename, videos.assets.hdflv.url, cb);
         });
     });
 }

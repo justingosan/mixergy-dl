@@ -1,9 +1,9 @@
 {
   "name": "node-web-scrape",
   "version": "0.0.1",
-  "description": "Scrape le web.",
+  "description": "Video downloader for Mixergy.com.",
   "main": "server.js",
-  "author": "Scotch",
+  "author": "justingosan",
   "dependencies": {
     "async": "^0.9.0",
     "cheerio": "latest",
