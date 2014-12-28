@@ -78,7 +78,7 @@ function processInterview(obj, cb){
             var filename = 'videos/' + String(obj['Episode Number']) + '.flv';
             console.log('Video can be downloaded: ' + obj['Episode Number']);
 
-            download(filename, videos.assets.hdflv.url, cb);
+            download(filename, videos.assets.flv.url, cb);
         });
     });
 }
