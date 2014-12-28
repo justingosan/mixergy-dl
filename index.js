@@ -4,7 +4,6 @@ var request = require("request").defaults({
 var fs = require('fs');
 var cheerio = require('cheerio');
 var _ = require('underscore');
-var sleep = require('sleep');
 var fs = require('fs');
 var async = require('async');
 var mkdirp = require('mkdirp');
