@@ -75,7 +75,7 @@ function processInterview(obj, cb){
         }, function(err, res, body) {
             var wistia = body.match(/\{"assets(.*)}}/g);
             var videos = JSON.parse(String(wistia[0]));
-            var filename = 'videos/' + String(obj['Episode Number']) + '.mp4';
+            var filename = 'videos/' + String(obj['Episode Number']) + '.flv';
             console.log('Video can be downloaded: ' + obj['Episode Number']);
 
             download(filename, videos.assets.hdflv.url, cb);
