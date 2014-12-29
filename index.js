@@ -13,6 +13,7 @@ blobSvc.createContainerIfNotExists('mixergydl', function(error){
         console.log('Azure storage created')
     }
 });
+var argv = require('minimist')(process.argv.slice(2));
 
 var VIDEO_TYPES = [
     'flv',
@@ -26,6 +27,7 @@ var VIDEO_TYPES = [
 
 var LOGIN_URL = 'https://mixergy.com/wp-login.php?wpe-login=mixergy';
 var COOKIES;
+
 
 mkdirp('videos');
 request.post({
@@ -42,11 +44,12 @@ request.post({
             if (!err) {
                 var docs = JSON.parse(body);
                 console.log('Detected ' + docs.count + ' interviews.');
+                var startAt = doc.count - int(argv.start) || 0;
 
-                var oneInterview = [docs.results.interviews[40]];
+                // var oneInterview = [docs.results.interviews[40]];
                 // _.forEach(oneInterview, function(obj){
-                var threads = 2;
-                async.eachLimit(docs.results.interviews, threads, function(obj, next){
+                var threads = 3;
+                async.eachLimit(docs.results.interviews.slice(startAt), threads, function(obj, next){
                   processInterview(obj, next);
                 }, function(){
                    console.log('Finished!');
@@ -114,17 +117,3 @@ function download(localFile, remotePath, callback) {
         }
     })
 };
-
-// var writeStream = blobService.createWriteStreamToBlockBlob(
-//             containerName,
-//             fileName,
-//             { contentType: 'text/html' },
-//             function(error, result, response){
-//                 if(error){
-//                     console.log("Couldn't upload file %s from %s", fileName, domain);
-//                     console.error(error);
-//                 } else {
-//                     console.log('File %s from %s uploaded', fileName, domain);
-//                 }
-//             });
-
